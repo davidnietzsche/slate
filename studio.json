@@ -1,0 +1,12 @@
+{
+  "worker": "slate",
+  "workspace": "my-studio",
+  "workspaceName": "My Studio",
+  "project": "content-pipeline",
+  "projectName": "Content pipeline",
+  "me": "Me",
+  "auth": "passcode",
+  "domain": null,
+  "tzHours": 8,
+  "verticals": []
+}

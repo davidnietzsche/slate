@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="format-detection" content="telephone=no">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="same-origin">
+<title>输入通行码 · Content Pipeline</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23F5F6FB'/%3E%3Cg fill='none' stroke='%2316172E' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cellipse cx='16' cy='16' rx='9' ry='5.6'/%3E%3Cpath d='M21.1 13.9 19.2 16l1.9 2.1'/%3E%3C/g%3E%3Crect x='12' y='13.3' width='1.8' height='5.4' rx='.9' fill='%2316172E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+/* design tokens */
+:root{
+  --ink:#16172E;--ink-soft:#43466A;--muted:#7A7E9C;--paper:#FFFFFF;--wash:#F5F6FB;--line:#E7E9F4;--line-soft:#EEF0F8;
+  --blue:#2F54FF;--blue-deep:#1B34C7;--blue-wash:#EDF0FF;--pink:#D6467B;--pink-wash:#FBE7EF;
+  --font-display:'Bricolage Grotesque','Noto Sans SC','PingFang SC',sans-serif;
+  --font-body:'IBM Plex Sans','Noto Sans SC','PingFang SC',-apple-system,sans-serif;
+  --font-mono:'IBM Plex Mono','Noto Sans SC',monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;min-height:100%}
+body{min-height:100vh;min-height:100dvh;background:var(--wash);color:var(--ink);font:13px/1.5 var(--font-body);-webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto 1fr auto}
+:focus-visible{outline:3px solid rgba(47,84,255,.32);outline-offset:2px}
+header{height:42px;display:flex;align-items:center;gap:9px;padding:0 16px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.mk{width:26px;height:26px;border-radius:8px;background:var(--wash);display:grid;place-items:center;flex:none}
+.crumb{display:flex;align-items:center;gap:7px;min-width:0;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden}
+.crumb i{font-style:normal;color:#C2C7DE}
+main{display:grid;place-items:center;padding:24px 16px}
+.card{width:min(400px,100%);background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 20px 42px -28px rgba(47,84,255,.55)}
+.tile{width:42px;height:42px;border-radius:13px;background:var(--blue-wash);color:var(--blue);display:grid;place-items:center}
+h1{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.12;margin:16px 0 6px}
+p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+label{display:block;margin:20px 0 7px;font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+input{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font:500 16px/1.3 var(--font-mono);letter-spacing:.04em;color:var(--ink);background:#fff;transition:border-color .18s,box-shadow .18s}
+input:hover{border-color:#C9CEE3}
+input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,84,255,.16)}
+.err{display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 11px;border-radius:10px;background:var(--pink-wash);color:#B02D5F;font-size:12px;font-weight:600}
+button{margin-top:14px;width:100%;border:0;border-radius:11px;padding:11px 12px;background:var(--blue);color:#fff;font:600 14.5px/1.3 var(--font-body);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .18s,transform .18s}
+button:hover{background:var(--blue-deep);transform:translateY(-1px)}
+button:active{transform:scale(.996)}
+.note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft);font-size:11.5px;color:var(--muted)}
+footer{padding:14px 16px 18px;text-align:center;font-family:var(--font-mono);font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#A9AEC4}
+/* phones */
+@media (max-width:600px){main{place-items:start center;padding:9vh max(16px,env(safe-area-inset-right)) 24px max(16px,env(safe-area-inset-left))}header{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}footer{padding-bottom:calc(18px + env(safe-area-inset-bottom))}button{min-height:46px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <span class="mk"><svg width="20" height="20" viewBox="0 0 1024 1024" aria-hidden="true"><g fill="none" stroke="#16172E" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="512" cy="512" rx="286" ry="178"/><path d="M676 444 614 512 676 580"/></g><rect x="386" y="426" width="56" height="172" rx="28" fill="#16172E"/></svg></span>
+  <span class="crumb">my-studio <i>/</i> content-pipeline</span>
+</header>
+<main>
+  <form class="card" method="post" action="/auth" autocomplete="off">
+    <span class="tile"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2.4"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><path d="M12 14.4v2"/></svg></span>
+    <h1>输入通行码</h1>
+    <p>只对团队开放。输入一次，这个浏览器就会记住你。</p>
+    <label for="code">通行码 · Pass code</label>
+    <input id="code" name="code" type="password" required autofocus autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="••••••••••••">
+    <input type="hidden" name="next" value="__NEXT__">
+    <div class="err" role="alert" __ERROR_HIDDEN__><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>通行码不对，再试一次。</div>
+    <button type="submit">进入<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <div class="note">没有通行码？请管理员发一条完整链接给你。</div>
+  </form>
+</main>
+<footer>Slate · Private workspace</footer>
+</body>
+</html>

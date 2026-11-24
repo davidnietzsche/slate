@@ -1,0 +1,5 @@
+key.txt
+.slate-secrets.json
+build/
+node_modules/
+.DS_Store

@@ -15,8 +15,8 @@
 //                            RESEND_API_KEY env, "owners": [emails] and "mailFrom")
 //              "tzHours"     your UTC offset, used for "today" (default 8)
 // key.txt      the pass code (made on first run, gitignored). .slate-secrets.json: cookie secret + API tokens (gitignored).
-import fs from 'fs'; import path from 'path'; import crypto from 'crypto';
-const ROOT = path.dirname(new URL(import.meta.url).pathname);
+import fs from 'fs'; import path from 'path'; import crypto from 'crypto'; import { fileURLToPath } from 'url';
+const ROOT = path.dirname(fileURLToPath(import.meta.url)); // decodes %20 / emoji in folder names
 const here = (f) => path.join(ROOT, f);
 const CFG = JSON.parse(fs.readFileSync(here('studio.json'), 'utf8'));
 const SCRIPT = CFG.worker || 'slate';

@@ -37,6 +37,7 @@ h1{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing
 p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
 label{display:block;margin:20px 0 7px;font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 input{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;font:500 16px/1.3 var(--font-mono);letter-spacing:.04em;color:var(--ink);background:#fff;transition:border-color .18s,box-shadow .18s}
+input::placeholder{font:400 14px/1.3 var(--font-body);letter-spacing:0;color:#A9AEC4}
 input:hover{border-color:#C9CEE3}
 input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,84,255,.16)}
 .err{display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 11px;border-radius:10px;background:var(--pink-wash);color:#B02D5F;font-size:12px;font-weight:600}
@@ -61,7 +62,7 @@ footer{padding:14px 16px 18px;text-align:center;font-family:var(--font-mono);fon
     <h1>输入通行码</h1>
     <p>只对团队开放。输入一次，这个浏览器就会记住你。</p>
     <label for="code">通行码 · Pass code</label>
-    <input id="code" name="code" type="password" required autofocus autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="••••••••••••">
+    <input id="code" name="code" type="password" required autofocus autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="在这里粘贴通行码 · Paste pass code" oninvalid="this.setCustomValidity('请先输入通行码 · Enter the pass code first')" oninput="this.setCustomValidity('')">
     <input type="hidden" name="next" value="__NEXT__">
     <div class="err" role="alert" __ERROR_HIDDEN__><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>通行码不对，再试一次。</div>
     <button type="submit">进入<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>

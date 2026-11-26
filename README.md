@@ -39,15 +39,15 @@ git clone https://github.com/davidnietzsche/slate.git ~/slate
 cd ~/slate && node local.mjs
 ```
 
-浏览器会打开看板（http://localhost:4321），通行码在 `~/slate/key.txt`。阶段、日期、备注存在 `~/slate/.slate-local.json`。
+浏览器会打开看板（http://localhost:4321），**已经帮你登入，不用打通行码**。换一个浏览器才需要码：`open ~/slate/key.txt`（Windows：`notepad %USERPROFILE%\slate\key.txt`）。阶段、日期、备注存在 `~/slate/.slate-local.json`。
 新增或改了卡（`scripts/*.md`），关掉再跑一次 `node local.mjs`。只要 Node 18+，什么都不用注册。
-It opens the board at http://localhost:4321; the pass code is in `key.txt`; stages, dates and notes live in `.slate-local.json`.
+It opens the board at http://localhost:4321 already signed in; the pass code (for another browser) is in `key.txt`; stages, dates and notes live in `.slate-local.json`.
 
 或者把这段贴给 Claude Code / Or paste this to Claude Code:
 
 ```
 帮我把 https://github.com/davidnietzsche/slate 装在我的电脑：clone 到 ~/slate，studio.json 的 workspaceName 改成我的名字，
-跑 node local.mjs 打开看板，告诉我通行码在哪里（不要印出通行码）。以后我说「打开看板」，你就在 ~/slate 跑 node local.mjs。
+跑 node local.mjs 打开看板（它会自动登入）。以后我说「打开看板」，你就在 ~/slate 跑 node local.mjs。
 ```
 
 **备注（留言区）怎么用**：点一张卡，右边「备注」写你要改的地方（例如「开头太慢，第一句直接讲结果」），会显示「待处理」。

@@ -5,7 +5,7 @@
 //
 // The same board as the Cloudflare version (the real src/worker.js runs here); stages, dates and notes are kept in
 // .slate-local.json next to this file. Add or edit a card (.md in scripts/), then restart local.mjs (or say "刷新看板").
-// Pass code: key.txt (made on first run). Your AI can write cards with the API in API.md: base URL http://localhost:4321,
+// It opens the board already signed in (the pass-code link); the code itself is in key.txt (made on first run). Your AI can write cards with the API in API.md: base URL http://localhost:4321,
 // token = ADMIN_TOKEN in .slate-secrets.json.
 import http from 'node:http';
 import fs from 'node:fs';
@@ -56,6 +56,8 @@ http.createServer(async (req, res) => {
 }).listen(PORT, () => {
   const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'studio.json'), 'utf8'));
   const url = `http://localhost:${PORT}/${cfg.workspace}/${cfg.project}`;
-  console.log(`Slate（本机）：${url}\n通行码在 ${path.join(ROOT, 'key.txt')}\n关掉这个视窗 / Ctrl+C 就停。`);
-  if (!args.includes('--no-open')) exec((process.platform === 'darwin' ? 'open ' : process.platform === 'win32' ? 'start "" ' : 'xdg-open ') + JSON.stringify(url));
+  // opened through the pass-code link, so the browser is signed in without typing the code (it stays signed in afterwards)
+  const signin = `http://localhost:${PORT}/${KEY}/${cfg.workspace}/${cfg.project}`;
+  console.log(`Slate（本机）：${url}\n已经帮你登入（不用打通行码）。换一个浏览器要码的话：打开 ${path.join(ROOT, 'key.txt')}\n关掉这个视窗 / Ctrl+C 就停。`);
+  if (!args.includes('--no-open')) exec((process.platform === 'darwin' ? 'open ' : process.platform === 'win32' ? 'start "" ' : 'xdg-open ') + JSON.stringify(signin));
 });

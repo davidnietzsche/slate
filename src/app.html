@@ -712,7 +712,7 @@ const sUrl = (s) => P + "/" + encodeURIComponent(s.name)
 const dateOf = (s) => (s.stem.match(/^\d{4}-\d{2}-\d{2}/) || [""])[0]
 let state = {}
 // State is keyed by the file stem; an entry under the clean name (if any) is read too.
-const st = (s) => ({ status: CFG.stages ? CFG.stages[0][0] : "ready", date: "", notes: "", ...(state[s.name] || {}), ...(state[s.stem] || {}) })
+const st = (s) => ({ status: s.stage || (CFG.stages ? CFG.stages[0][0] : "ready"), date: "", notes: "", ...(state[s.name] || {}), ...(state[s.stem] || {}) })
 // The notes box holds open feedback. Resolving moves it into the log with what changed and empties the box,
 // so the card shows 已解决 until a new note is typed.
 const noteState = (x) => (x.notes || "").trim() ? "open" : x.resolved ? "resolved" : ""

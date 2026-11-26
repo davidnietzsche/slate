@@ -27,7 +27,7 @@ slate/
 
 ## 卡的格式 Card format
 
-- 第一行 `# 标题`。文件名 `2026-11-24-my-video.md` → 网址 `/my-video`（日期只用来排序）。
+- 第一行 `# 标题`。想让新卡从别的阶段开始，加一行 `<!-- stage: idea -->`（idea / writing / ready …）。文件名 `2026-11-24-my-video.md` → 网址 `/my-video`（日期只用来排序）。
 - 脚本表格有「口播」（或 Voice / Voiceover / VO）这一栏 → 卡多一个提词器分页；可加「画面」（Picture）、「时间」（Time）。
 - 常用段落：`## 参考视频` · `## 开头（hook 卡）` · `## 脚本` · `## 文案`。看 `scripts/` 里的示范卡。
 - 阶段 stages: 点子 idea → 写稿中 writing → 可以录 ready → 审过 reviewed → 录好 filmed → 剪好 edited → 已发布 posted（丢掉 binned）。阶段、日期、备注存在 Cloudflare，改文件名也不会丢。

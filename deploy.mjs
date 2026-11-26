@@ -50,7 +50,8 @@ function collect(sdir, pdir, docRe) {
     taken.add(name.toLowerCase());
     const title = (md.match(/^# (.+)$/m) || [, stem])[1].trim();
     const doc = /INDEX|series-plan|analysis|report/i.test(stem) || (docRe ? new RegExp(docRe).test(stem) : false);
-    return { stem, name, title, md, kind: doc ? 'doc' : 'script', series: '', ref: null };
+    const stage = (md.match(/<!--\s*stage:\s*(\w+)\s*-->/) || [])[1] || '';   // a card can say where it starts: <!-- stage: idea -->
+    return { stem, name, title, md, kind: doc ? 'doc' : 'script', series: '', ref: null, ...(stage ? { stage } : {}) };
   });
   if (fs.existsSync(pdir)) for (const f of fs.readdirSync(pdir).filter((f) => f.endsWith('.md')).sort()) {
     const md = fs.readFileSync(path.join(pdir, f), 'utf8');

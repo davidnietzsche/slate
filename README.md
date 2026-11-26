@@ -18,6 +18,7 @@ slate/
 │  ├─ app.html        看板画面 the board UI
 │  ├─ gate.html       通行码页 pass-code page
 │  └─ login.html      邮箱登入页 email-login page
+├─ local.mjs          在自己电脑跑看板（不用 Cloudflare） run the board locally
 ├─ deploy.mjs         打包 + 上传到 Cloudflare build + upload
 └─ API.md             给 AI 用的 API the API for your AI terminal
 ```
@@ -31,7 +32,33 @@ slate/
 - 常用段落：`## 参考视频` · `## 开头（hook 卡）` · `## 脚本` · `## 文案`。看 `scripts/` 里的示范卡。
 - 阶段 stages: 点子 idea → 写稿中 writing → 可以录 ready → 审过 reviewed → 录好 filmed → 剪好 edited → 已发布 posted（丢掉 binned）。阶段、日期、备注存在 Cloudflare，改文件名也不会丢。
 
-## 装起来 Set up (约 10 分钟)
+## 最简单：在你自己的电脑上跑（不用 Cloudflare、不用帐号）Easiest: on your own computer
+
+```
+git clone https://github.com/davidnietzsche/slate.git ~/slate
+cd ~/slate && node local.mjs
+```
+
+浏览器会打开看板（http://localhost:4321），通行码在 `~/slate/key.txt`。阶段、日期、备注存在 `~/slate/.slate-local.json`。
+新增或改了卡（`scripts/*.md`），关掉再跑一次 `node local.mjs`。只要 Node 18+，什么都不用注册。
+It opens the board at http://localhost:4321; the pass code is in `key.txt`; stages, dates and notes live in `.slate-local.json`.
+
+或者把这段贴给 Claude Code / Or paste this to Claude Code:
+
+```
+帮我把 https://github.com/davidnietzsche/slate 装在我的电脑：clone 到 ~/slate，studio.json 的 workspaceName 改成我的名字，
+跑 node local.mjs 打开看板，告诉我通行码在哪里（不要印出通行码）。以后我说「打开看板」，你就在 ~/slate 跑 node local.mjs。
+```
+
+**备注（留言区）怎么用**：点一张卡，右边「备注」写你要改的地方（例如「开头太慢，第一句直接讲结果」），会显示「待处理」。
+然后跟 Claude 说「看看板的备注，照着改」：它用 API 读 `GET /notes`，改好稿，再标「已解决」，变化会出现在右上角的铃铛。
+Notes: write what to change in a card's 备注 box; tell Claude "read the board notes and fix them"; it reads `GET /notes`, edits, and resolves.
+
+**本机的 API**：Base `http://localhost:4321/api/ws/<workspace>`，token 一样是 `.slate-secrets.json` 的 `ADMIN_TOKEN`（看 [API.md](API.md)）。
+只有你这台电脑开得到；想用手机看、或给团队看，再照下面放上 Cloudflare。
+
+## 放上网（Cloudflare，免费，约 10 分钟）Put it online
+
 
 最简单：把下面这段贴给你的 Claude Code，它会一步一步带你做。
 Easiest: paste this to Claude Code.

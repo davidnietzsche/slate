@@ -3,3 +3,5 @@ key.txt
 build/
 node_modules/
 .DS_Store
+.slate-local.json
+*.log

@@ -659,8 +659,8 @@ select.field{height:34px;padding:0 30px 0 10px;font-size:12.5px;font-weight:600;
 <button class="totop" id="totop" type="button" aria-label="回到顶部" tabindex="-1"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" style="stroke-width:2.2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
 
 <script>
-const ME = (window.SLATE_ME || "Owner");
-const ME = __SLATE_ME__
+const ME_NAME = (window.SLATE_ME || "Owner");   // your name in the notes history (studio.json "me")
+const ME = __SLATE_ME__   // who is signed in: { mode, email, role }
 // Cards made through the workspace API (/api/ws/<ws>/scripts) are added by the worker at page time; one with the
 // same stem as a file card replaces it (an online edit).
 const SCRIPTS = ((files, extra) => { const m = new Map(files.map((s) => [s.stem, s])); for (const s of extra) m.set(s.stem, s); return [...m.values()] })(__SCRIPTS__, /*__SLATE_EXTRA__*/[])
@@ -838,7 +838,7 @@ function checklists(s) {
 
 // ---------- bell: the change feed (resolved notes), unread = newer than this browser last opened it ----------
 const SEEN = "slate-seen"
-const unseen = (a, seen) => a.at > seen && a.by !== ME   // your own ticks don't notify you
+const unseen = (a, seen) => a.at > seen && a.by !== ME_NAME   // your own ticks don't notify you
 function bell() {
   const seen = store.get(SEEN, 0), n = activity.filter((a) => unseen(a, seen)).length
   $("#bellN").hidden = !n; $("#bellN").textContent = n > 99 ? "99+" : n
@@ -1360,8 +1360,8 @@ function resBox(s) {
 }
 function resRefresh(s) { $("#resBox").innerHTML = resBox(s); $("#sideNote").innerHTML = noteTag(st(s)); const n = $("#pNotes"); if (n && document.activeElement !== n) n.value = st(s).notes || ""; wireRes(s) }
 function wireRes(s) {
-  if ($("#markDone")) $("#markDone").onclick = async () => { await save(s, { resolve: ME + " 标为已解决", by: ME }, true); toast("已标为已解决"); resRefresh(s) }
-  if ($("#reopen")) $("#reopen").onclick = async () => { await save(s, { reopen: true, by: ME }, true); toast("已重新打开"); resRefresh(s) }
+  if ($("#markDone")) $("#markDone").onclick = async () => { await save(s, { resolve: ME_NAME + " 标为已解决", by: ME_NAME }, true); toast("已标为已解决"); resRefresh(s) }
+  if ($("#reopen")) $("#reopen").onclick = async () => { await save(s, { reopen: true, by: ME_NAME }, true); toast("已重新打开"); resRefresh(s) }
 }
 
 function openStage(beats) {

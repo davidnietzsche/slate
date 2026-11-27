@@ -1,4 +1,4 @@
-# Slate API (for your AI terminal)
+# Storyboard API (for your AI terminal)
 
 Let Claude Code / Codex read and write your board's cards.
 

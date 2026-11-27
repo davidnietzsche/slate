@@ -1,4 +1,4 @@
-// Slate — a content-pipeline board (scripts, stages, calendar, notes, teleprompter) on one Cloudflare Worker.
+// Storyboard — a content-pipeline board (scripts, stages, calendar, notes, teleprompter) on one Cloudflare Worker.
 // deploy.mjs uploads this file next to a generated data.js (page HTML, gate/login HTML, routes, config).
 //
 // URLs:  /<workspace>/<project>               board
@@ -313,15 +313,15 @@ async function sendMail(env, to, subject, htmlBody, text) {
 const mailShell = (title, body) => `<!doctype html><html><body style="margin:0;background:#F5F6FB;font-family:'IBM Plex Sans',-apple-system,'PingFang SC',sans-serif;color:#16172E">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:28px 12px"><tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background:#fff;border:1px solid #E7E9F4;border-radius:18px"><tr><td style="padding:26px 26px 22px">
-<div style="font:600 10px/1 monospace;letter-spacing:.14em;text-transform:uppercase;color:#7A7E9C">Slate</div>
+<div style="font:600 10px/1 monospace;letter-spacing:.14em;text-transform:uppercase;color:#7A7E9C">Storyboard</div>
 <h1 style="margin:14px 0 8px;font-size:21px;line-height:1.25;letter-spacing:-.02em">${title}</h1>${body}
 </td></tr></table>
 <p style="margin:14px 0 0;font:11px/1.5 sans-serif;color:#A9AEC4">如果这不是你本人操作，忽略这封邮件即可。</p>
 </td></tr></table></body></html>`;
-const codeMail = (code) => mailShell('你的登录验证码', `<p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#43466A">在 Slate 登录页输入下面的 6 位数，10 分钟内有效。</p>
+const codeMail = (code) => mailShell('你的登录验证码', `<p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#43466A">在 Storyboard 登录页输入下面的 6 位数，10 分钟内有效。</p>
 <div style="padding:14px 0;border-radius:12px;background:#EDF0FF;text-align:center;font:600 30px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.32em;color:#1B34C7">${code}</div>`);
-const inviteMail = (by, ws, link) => mailShell(`${esc(by)} 邀请你加入 ${esc(ws)}`, `<p style="margin:0 0 18px;font-size:14px;line-height:1.6;color:#43466A">用这个邮箱登录 Slate 就能进入工作区，不需要密码，我们会寄验证码给你。</p>
-<a href="${esc(link)}" style="display:inline-block;padding:11px 18px;border-radius:11px;background:#2F54FF;color:#fff;font-weight:600;font-size:14px;text-decoration:none">打开 Slate</a>`);
+const inviteMail = (by, ws, link) => mailShell(`${esc(by)} 邀请你加入 ${esc(ws)}`, `<p style="margin:0 0 18px;font-size:14px;line-height:1.6;color:#43466A">用这个邮箱登录 Storyboard 就能进入工作区，不需要密码，我们会寄验证码给你。</p>
+<a href="${esc(link)}" style="display:inline-block;padding:11px 18px;border-radius:11px;background:#2F54FF;color:#fff;font-weight:600;font-size:14px;text-decoration:none">打开 Storyboard</a>`);
 
 // ---- pages ---------------------------------------------------------------------------------
 const gate = (next, error = false) => html(GATE
@@ -438,8 +438,8 @@ export default {
         const r = await acct(env, 'otpStart', { email, ip });
         if (!r.ok) return login(r.error === 'wait' ? 'code' : 'email', { next, email, error: OTP_ERRORS[r.error] || OTP_ERRORS.rate, status: 429 });
         if (r.send) {
-          const sent = await sendMail(env, email, `${r.code} 是你的 Slate 登录验证码`, codeMail(r.code),
-            `你的 Slate 登录验证码：${r.code}\n10 分钟内有效。如果这不是你本人操作，忽略这封邮件即可。`);
+          const sent = await sendMail(env, email, `${r.code} 是你的 Storyboard 登录验证码`, codeMail(r.code),
+            `你的 Storyboard 登录验证码：${r.code}\n10 分钟内有效。如果这不是你本人操作，忽略这封邮件即可。`);
           if (!sent.ok) { await acct(env, 'otpCancel', { email }); return login('email', { next, email, error: OTP_ERRORS.mail, status: 502 }); }
         }
         // Same answer whether or not the address has access, so the page does not reveal who is a member.
@@ -482,7 +482,7 @@ export default {
       const r = await acct(env, op, { ws: WS, by: me.email, email: normEmail(b.email), role: b.role });
       if (r.ok && op === 'invite') {
         const link = `${origin}/login?email=${encodeURIComponent(normEmail(b.email))}&next=${encodeURIComponent(PREFIX)}`;
-        r.mailed = (await sendMail(env, normEmail(b.email), `${me.email} 邀请你加入 ${SEED.name} · Slate`, inviteMail(me.email, SEED.name, link),
+        r.mailed = (await sendMail(env, normEmail(b.email), `${me.email} 邀请你加入 ${SEED.name} · Storyboard`, inviteMail(me.email, SEED.name, link),
           `${me.email} 邀请你加入 ${SEED.name}。用这个邮箱登录即可：${link}`)).ok;
       }
       return json(r, r.ok ? 200 : 400);

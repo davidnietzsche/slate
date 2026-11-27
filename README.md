@@ -1,4 +1,4 @@
-# Slate · 内容看板
+# Storyboard · 内容看板
 
 把每一支片从「点子」一路管到「已发布」的看板：脚本卡、阶段、发布日历、备注、提词器，一个网址打开。
 A content-pipeline board: script cards, stages, a publish calendar, notes and a teleprompter, on one free Cloudflare Worker.
@@ -82,7 +82,7 @@ Easiest: paste this to Claude Code.
 ## 进阶 More
 
 - 自己的网域 Custom domain: `studio.json` `"domain": "board.yourdomain.com"`（网域要在同一个 Cloudflare 账号）。
-- 团队邮箱登入 Email login for a team: `"auth": "otp"`, `"owners": ["you@…"]`, `"mailFrom": "Slate <login@yourdomain.com>"`, 加上 `RESEND_API_KEY`（resend.com）。成员可以是 owner / editor / viewer。
+- 团队邮箱登入 Email login for a team: `"auth": "otp"`, `"owners": ["you@…"]`, `"mailFrom": "Storyboard <login@yourdomain.com>"`, 加上 `RESEND_API_KEY`（resend.com）。成员可以是 owner / editor / viewer。
 - 多个账号 More workspaces: `"verticals": [{ "workspace": "brand2", "name": "第二个账号", "api": true }]` → 卡放 `workspaces/brand2/scripts/`。
 - 让 AI 直接写卡 Let your AI write cards: 看 [API.md](API.md)。
 

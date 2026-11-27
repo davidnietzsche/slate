@@ -1,4 +1,4 @@
-// Slate deploy: builds the board from scripts/*.md (+ playbook/*.md) and uploads it as a Cloudflare Worker.
+// Storyboard deploy: builds the board from scripts/*.md (+ playbook/*.md) and uploads it as a Cloudflare Worker.
 //
 //   CLOUDFLARE_API_TOKEN=<token> node deploy.mjs          → deploys, prints the board URL
 //   node deploy.mjs --dry build                           → only writes build/worker.js + build/data.js (no upload)

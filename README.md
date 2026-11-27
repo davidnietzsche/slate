@@ -8,7 +8,7 @@ A content-pipeline board: script cards, stages, a publish calendar, notes and a 
 ## 结构 Structure
 
 ```
-slate/
+storyboard/
 ├─ studio.json        设定：工作区名字、网址、登入方式 settings
 ├─ scripts/           一张卡 = 一个 .md 文件 one card per file (看板 board)
 ├─ playbook/          侧边栏的方法页 sidebar guide pages
@@ -35,19 +35,19 @@ slate/
 ## 最简单：在你自己的电脑上跑（不用 Cloudflare、不用帐号）Easiest: on your own computer
 
 ```
-git clone https://github.com/davidnietzsche/slate.git ~/slate
-cd ~/slate && node local.mjs
+git clone https://github.com/davidnietzsche/storyboard.git ~/storyboard
+cd ~/storyboard && node local.mjs
 ```
 
-浏览器会打开看板（http://localhost:4321），**已经帮你登入，不用打通行码**。换一个浏览器才需要码：`open ~/slate/key.txt`（Windows：`notepad %USERPROFILE%\slate\key.txt`）。阶段、日期、备注存在 `~/slate/.slate-local.json`。
+浏览器会打开看板（http://localhost:4321），**已经帮你登入，不用打通行码**。换一个浏览器才需要码：`open ~/storyboard/key.txt`（Windows：`notepad %USERPROFILE%\slate\key.txt`）。阶段、日期、备注存在 `~/storyboard/.slate-local.json`。
 新增或改了卡（`scripts/*.md`），关掉再跑一次 `node local.mjs`。只要 Node 18+，什么都不用注册。
 It opens the board at http://localhost:4321 already signed in; the pass code (for another browser) is in `key.txt`; stages, dates and notes live in `.slate-local.json`.
 
 或者把这段贴给 Claude Code / Or paste this to Claude Code:
 
 ```
-帮我把 https://github.com/davidnietzsche/slate 装在我的电脑：clone 到 ~/slate，studio.json 的 workspaceName 改成我的名字，
-跑 node local.mjs 打开看板（它会自动登入）。以后我说「打开看板」，你就在 ~/slate 跑 node local.mjs。
+帮我把 https://github.com/davidnietzsche/storyboard 装在我的电脑：clone 到 ~/storyboard，studio.json 的 workspaceName 改成我的名字，
+跑 node local.mjs 打开看板（它会自动登入）。以后我说「打开看板」，你就在 ~/storyboard 跑 node local.mjs。
 ```
 
 **备注（留言区）怎么用**：点一张卡，右边「备注」写你要改的地方（例如「开头太慢，第一句直接讲结果」），会显示「待处理」。
@@ -64,7 +64,7 @@ Notes: write what to change in a card's 备注 box; tell Claude "read the board 
 Easiest: paste this to Claude Code.
 
 ```
-帮我把 https://github.com/davidnietzsche/slate 装起来：clone 到 ~/slate，改 studio.json 的 workspace / workspaceName 成我的名字，
+帮我把 https://github.com/davidnietzsche/storyboard 装起来：clone 到 ~/storyboard，改 studio.json 的 workspace / workspaceName 成我的名字，
 带我开一个免费 Cloudflare 账号和一个 "Edit Cloudflare Workers" API token（让我自己贴到 terminal，不要印出来），
 然后用 CLOUDFLARE_API_TOKEN 跑 node deploy.mjs，最后告诉我看板网址和 key.txt 里的通行码在哪里（不要印出通行码）。
 ```

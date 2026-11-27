@@ -1,4 +1,4 @@
-// Slate on your own computer — no Cloudflare, no account, nothing online (2026-11-26).
+// Storyboard on your own computer — no Cloudflare, no account, nothing online (2026-11-26).
 //
 //   node local.mjs            → builds the board from scripts/*.md and opens http://localhost:4321
 //   node local.mjs --port 5000 --no-open
@@ -52,12 +52,12 @@ http.createServer(async (req, res) => {
     const cookies = typeof r.headers.getSetCookie === 'function' ? r.headers.getSetCookie() : [];
     if (cookies.length) h['set-cookie'] = cookies.map((c) => c.replace(/;\s*Domain=[^;]+/i, ''));
     res.writeHead(r.status, h); res.end(Buffer.from(await r.arrayBuffer()));
-  } catch (e) { res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8' }); res.end('Slate local error: ' + (e.stack || e)); }
+  } catch (e) { res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8' }); res.end('Storyboard local error: ' + (e.stack || e)); }
 }).listen(PORT, () => {
   const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'studio.json'), 'utf8'));
   const url = `http://localhost:${PORT}/${cfg.workspace}/${cfg.project}`;
   // opened through the pass-code link, so the browser is signed in without typing the code (it stays signed in afterwards)
   const signin = `http://localhost:${PORT}/${KEY}/${cfg.workspace}/${cfg.project}`;
-  console.log(`Slate（本机）：${url}\n已经帮你登入（不用打通行码）。换一个浏览器要码的话：打开 ${path.join(ROOT, 'key.txt')}\n关掉这个视窗 / Ctrl+C 就停。`);
+  console.log(`Storyboard（本机）：${url}\n已经帮你登入（不用打通行码）。换一个浏览器要码的话：打开 ${path.join(ROOT, 'key.txt')}\n关掉这个视窗 / Ctrl+C 就停。`);
   if (!args.includes('--no-open')) exec((process.platform === 'darwin' ? 'open ' : process.platform === 'win32' ? 'start "" ' : 'xdg-open ') + JSON.stringify(signin));
 });

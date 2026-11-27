@@ -39,7 +39,7 @@ git clone https://github.com/davidnietzsche/storyboard.git ~/storyboard
 cd ~/storyboard && node local.mjs
 ```
 
-浏览器会打开看板（http://localhost:4321），**已经帮你登入，不用打通行码**。换一个浏览器才需要码：`open ~/storyboard/key.txt`（Windows：`notepad %USERPROFILE%\slate\key.txt`）。阶段、日期、备注存在 `~/storyboard/.slate-local.json`。
+浏览器会打开看板（http://localhost:4321），**已经帮你登入，不用打通行码**。换一个浏览器才需要码：`open ~/storyboard/key.txt`（Windows：`notepad %USERPROFILE%\storyboard\key.txt`）。阶段、日期、备注存在 `~/storyboard/.slate-local.json`。
 新增或改了卡（`scripts/*.md`），关掉再跑一次 `node local.mjs`。只要 Node 18+，什么都不用注册。
 It opens the board at http://localhost:4321 already signed in; the pass code (for another browser) is in `key.txt`; stages, dates and notes live in `.slate-local.json`.
 
